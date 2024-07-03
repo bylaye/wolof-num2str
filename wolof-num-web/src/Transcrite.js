@@ -9,7 +9,7 @@ const Transcrite = () => {
     const [number, setNumber] = useState('');
     const [outputSelected, setOutputSelected] = useState({
         cardinal: true,
-        ordinal : false,
+        code : false,
         money: false,
     });
     const [translate, setTranslate] = useState({})
@@ -72,6 +72,12 @@ const Transcrite = () => {
                     label='Valeur'
                     value={number}
                     onChange={handleNumberChange}
+                    InputProps={{
+                        style: { fontSize: '24px' },
+                      }}
+                      InputLabelProps={{
+                        style: { fontSize: '24px' },
+                      }}
                 > </TextField>
             </Box>
 
@@ -83,13 +89,13 @@ const Transcrite = () => {
                     }
                     label="Cardinal"
                 />
-                {/* <FormControlLabel
+                { <FormControlLabel
                     control={<Checkbox 
-                        checked={outputSelected.ordinal} 
-                        onChange={handleCheckboxChange} name="ordinal" />
+                        checked={outputSelected.code} 
+                        onChange={handleCheckboxChange} name="code" />
                     }
-                    label="Ordinal"
-                /> */}
+                    label="Code"
+                /> }
                 <FormControlLabel
                     control={
                         <Checkbox checked={outputSelected.money} 
@@ -107,11 +113,22 @@ const Transcrite = () => {
                 )}
             </Box>
 
-            <Box  mb={2}>
-                {/* {number && outputSelected.ordinal && (
-                    <Typography variant="body1">Exemple Ordinal: Ordinal Number</Typography>
-                )} */}
-                
+            <Box mb={2}>
+                {number && outputSelected.code && (
+                    <Typography variant="body1" style={{ textAlign: 'justify' }}>
+                        Code Value : {translate.value_code} 
+                    </Typography>
+                    
+                )}
+                {number && outputSelected.code && (
+                    <Typography variant="body1" style={{ textAlign: 'justify' }} >
+                        Code : {translate.code} 
+                    </Typography>
+                    
+                )}
+            </Box>
+
+            <Box  mb={2}> 
                 {number && outputSelected.cardinal && (
                     <>
                     {isLoading ? ( 
