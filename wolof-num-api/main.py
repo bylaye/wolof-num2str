@@ -1,5 +1,5 @@
 from typing import Union
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 import lang_wolof as wl
 
@@ -26,18 +26,22 @@ def read_root():
 @app.get("/get/strnumber/{value}")
 def wolof_number_to_str(value: str):
     try:
+        code = value
         value = int(value)
         dec = wl.decompose(int(value))
         str2money = wl.currency(value)
         str2cardinal = wl.cardinal(dec)
         str2cardinal2 = wl.cardinal_2(dec)
-        return{ "value": value,
+        code2str = wl.spell(code)
+        return{ "value_int": value,
+                "value_code": code,
+                "code": code2str,
                 "cardinal": str2cardinal,
                 "cardinal2": str2cardinal2,
                 "money":str2money 
             }
     except:
-        return {"comment":"only accept int value"}
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='only accept int value')
 
 
 
