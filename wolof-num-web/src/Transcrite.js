@@ -4,6 +4,7 @@ import { Container, TextField, Typography, Box, Checkbox, FormControlLabel, Circ
 import axios from "axios";
 
 const Transcrite = () => {
+    // a remplacer par l'adresse du reseau local ou public.
     const apiURL = "http://localhost:8800"
     const [number, setNumber] = useState('');
     const [outputSelected, setOutputSelected] = useState({
@@ -18,10 +19,12 @@ const Transcrite = () => {
     const handleTranslate = async (value) => {
         setIsLoading(true);
         try {
+            setTranslate('');
+            setErrorr('')
             const response = await axios.get(`${apiURL}/get/strnumber/${value}`);
             setTranslate(response.data);
         } catch (error) {
-            if (error.code && error.code == 'ERR_NETWORK'){
+            if (error.code && error.code === 'ERR_NETWORK'){
                 setErrorr('Network Error');
             }
             console.error("There was an error fetching the data!", error.code);
@@ -97,7 +100,7 @@ const Transcrite = () => {
             </Box>
 
             <Box mb={2}>
-                {number && (
+                {number && errorr &&(
                     <Typography style={{ color: 'red' }}> 
                         Error {errorr} 
                     </Typography>
