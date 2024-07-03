@@ -13,6 +13,7 @@ const Transcrite = () => {
     });
     const [translate, setTranslate] = useState({})
     const [isLoading, setIsLoading] = useState(false); 
+    const [errorr, setErrorr] = useState('');
 
     const handleTranslate = async (value) => {
         setIsLoading(true);
@@ -20,7 +21,10 @@ const Transcrite = () => {
             const response = await axios.get(`${apiURL}/get/strnumber/${value}`);
             setTranslate(response.data);
         } catch (error) {
-            console.error("There was an error fetching the data!");
+            if (error.code && error.code == 'ERR_NETWORK'){
+                setErrorr('Network Error');
+            }
+            console.error("There was an error fetching the data!", error.code);
         }
         setIsLoading(false); 
     }
@@ -68,7 +72,7 @@ const Transcrite = () => {
                 > </TextField>
             </Box>
 
-            <Box  mb={4}>
+            <Box  mb={2}>
                 <FormControlLabel
                     control={<Checkbox 
                         checked={outputSelected.cardinal} 
@@ -90,6 +94,14 @@ const Transcrite = () => {
                     }
                     label="Money"
                 />
+            </Box>
+
+            <Box mb={2}>
+                {number && (
+                    <Typography style={{ color: 'red' }}> 
+                        Error {errorr} 
+                    </Typography>
+                )}
             </Box>
 
             <Box  mb={2}>
