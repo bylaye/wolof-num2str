@@ -25,18 +25,22 @@ def read_root():
 
 @app.get("/get/strnumber/{value}")
 def wolof_number_to_str(value: str):
-    dec = wl.decompose(int(value))
-    str2money = wl.currency(int(value))
-    str2cardinal = wl.cardinal(dec)
-    str2cardinal2 = wl.cardinal_2(dec)
-    return{ "value": value,
-            "cardinal": str2cardinal,
-            "cardinal2": str2cardinal2,
-            "money":str2money 
-        }
+    try:
+        value = int(value)
+        dec = wl.decompose(int(value))
+        str2money = wl.currency(value)
+        str2cardinal = wl.cardinal(dec)
+        str2cardinal2 = wl.cardinal_2(dec)
+        return{ "value": value,
+                "cardinal": str2cardinal,
+                "cardinal2": str2cardinal2,
+                "money":str2money 
+            }
+    except:
+        return {"comment":"only accept int value"}
 
 
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8800)
+    uvicorn.run(app, host="localhost", port=8800)
