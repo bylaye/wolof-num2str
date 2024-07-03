@@ -213,3 +213,13 @@ def money_minus_million(number):
     result += with_fiftin(fiftin)
     return result
 
+
+def spell(number, NUMERAL: dict = NUMERAL):
+    result = ''
+    str_number = str(number)
+    len_str_number = len(str_number)
+    for i, e in enumerate(str_number):
+        result += NUMERAL[int(e)]
+        if i+1 <  len_str_number:
+        	result += ' '
+    return result
